@@ -1,0 +1,44 @@
+@import '../../../styles/vars';
+
+%link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  height: 100%;
+  color: $text-light;
+  transition: color 0.2s;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  margin-left: 8px;
+}
+
+.header {
+  height: 55px;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  background: $bg-accent;
+
+  .navigation {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .icon {
+    display: block;
+  }
+}
+
+.link {
+  @extend %link;
+  margin-left: 0px;
+}
+
+.link_active {
+  @extend %link;
+  border-bottom: 2px solid $text-light;
+  color: $text-light;
+}

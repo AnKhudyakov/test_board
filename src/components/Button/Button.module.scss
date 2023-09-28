@@ -1,0 +1,25 @@
+@import '../../styles/vars';
+
+%btn {
+  display: flex;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: $text-primary;
+  border: none;
+  white-space: nowrap;
+  transition: all 0.5s;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  &:disabled {
+    background-color: $bg-hover;
+  }
+}
+
+.primary {
+  @extend %btn;
+  background-color: $bg-hover;
+  grid-area: -2;
+}

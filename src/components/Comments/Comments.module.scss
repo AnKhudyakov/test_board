@@ -1,0 +1,47 @@
+@import '../../styles/vars';
+
+%comment {
+    width: fit-content;
+    background-color: $bg-secondary;
+    border-radius: 5px;
+    z-index: 999;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.comment {
+    @extend %comment;
+    margin-left: 10px
+}
+
+.comment_active {
+    @extend %comment;
+    margin-left: 10px;
+    transition: all 0.4s;
+    background-color: $bg-hover;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+   // border: 1px solid $bg-secondary;
+   // height: 150px;
+    overflow: scroll;
+}
+
+.content {
+    padding: 10px;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 0 0 5px 5px;
+    }
+
+.head {
+    background-color: $bg-accent;
+    color: $text-light;
+    padding: 5px 10px;
+}

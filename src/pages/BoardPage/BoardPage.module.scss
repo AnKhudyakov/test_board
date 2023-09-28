@@ -1,0 +1,20 @@
+@import '../../styles/vars';
+
+.container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 95px);
+  overflow: scroll;
+  border: 1px solid $bg-light;
+  border-radius: 5px;
+  //padding: 10px;
+  background-color: $bg-light;
+}
+
+.boards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 15px;
+  height: 100%;
+}

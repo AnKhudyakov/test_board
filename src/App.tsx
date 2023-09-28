@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+// import { incrementDevtime } from './services/todoService';
+import ToDoListPage from './pages/ToDoListPage/ToDoListPage';
+import Layout from './components/Layout/Layout';
+import BoardPage from './pages/BoardPage/BoardPage';
+import { useContext, useEffect } from 'react';
+import { ToDoContext } from './context';
+import { ToDoContextType } from './types';
 
 function App() {
+  const { toDos, setToDosFromLS, incrementDevTime } = useContext(
+    ToDoContext
+  ) as ToDoContextType;
+
+  useEffect(() => {
+    setToDosFromLS();
+  }, []);
+
+  useEffect(() => {
+    incrementDevTime();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Routes>
+        <Route path="/" element={<ToDoListPage />} />
+        <Route path="/project/:id" element={<BoardPage />} />
+      </Routes>
     </div>
   );
 }

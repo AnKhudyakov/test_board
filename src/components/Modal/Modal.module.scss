@@ -1,0 +1,53 @@
+@import '../../styles/vars';
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal_header{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: $bg-accent;
+  height: 50px;
+  color: $text-light;
+  padding: 10px 20px ;
+
+}
+
+.modal_content {
+  width: 90vw;
+  max-height: 90vh;
+  max-width: 776px;
+  //padding: 35px 40px 22px;
+  background: $bg-secondary;
+  overflow: auto;
+  animation: showScale 1s;
+  // @media only screen and (max-width: $breakpoint-mobile) {
+  //   padding: 24px 16px 42px;
+  //   width: 100%;
+  //   max-height: 100%;
+  // }
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  z-index: 999;
+  // @media only screen and (max-width: $breakpoint-mobile) {
+  //   justify-content: flex-start;
+  //   align-items: flex-start;
+  // }
+}
