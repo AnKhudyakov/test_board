@@ -41,7 +41,7 @@ function Search() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           type="text"
-          placeholder="Search task by number..."
+          placeholder="Search task..."
         />
       </div>
       {search && (

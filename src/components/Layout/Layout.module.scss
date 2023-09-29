@@ -3,4 +3,8 @@
 .main {
   margin: 0 auto;
   padding: 20px;
+  padding-top: 70px;
+  @media only screen and (max-width: 480px) {
+    padding-top: 95px;
+  }
 }
