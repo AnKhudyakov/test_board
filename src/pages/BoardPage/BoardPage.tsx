@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { ToDoContext } from '../../context';
-import { BoardType, IToDo, TaskType, ToDoContextType } from '../../types';
-import ToDoItem from '../../components/ToDoItem/ToDoItem';
-import styles from './BoardPage.module.scss';
+import { useContext, useEffect } from 'react';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import Board from '../../components/Board/Board';
 import Layout from '../../components/Layout/Layout';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { ToDoContext } from '../../context';
+import { ToDoContextType } from '../../types';
+import styles from './BoardPage.module.scss';
 
 function BoardPage() {
   const { id } = useParams();
@@ -15,18 +14,16 @@ function BoardPage() {
     getToDo,
     setActiveToDo,
     filteredActiveTodo,
-    setFilteredActiveTodo,
     dnd,
   } = useContext(ToDoContext) as ToDoContextType;
 
   useEffect(() => {
     if (toDos && id && getToDo(id)) setActiveToDo(getToDo(id));
-  }, [toDos]);
+  }, [toDos, id]);
 
   const onDragEnd = (result: DropResult) => {
     dnd(result);
   };
-//console.log(filteredActiveTodo);
 
   return (
     <Layout>

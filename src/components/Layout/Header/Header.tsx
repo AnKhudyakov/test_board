@@ -11,16 +11,12 @@ import Search from '../../Search/Search';
 
 function Header() {
   const { id } = useParams();
-  const { toDoModal, setToDoModal, taskModal, setTaskModal, toDos, getToDo } =
-    useContext(ToDoContext) as ToDoContextType;
-  const [toDo, setToDo] = useState<IToDo | null>(null);
+  const { toDoModal, setToDoModal, taskModal, setTaskModal } = useContext(
+    ToDoContext
+  ) as ToDoContextType;
   const setModal = id ? setTaskModal : setToDoModal;
   const modal = id ? taskModal : toDoModal;
   const title = id ? 'Task' : 'Project';
-
-  useEffect(() => {
-    if (toDos && id && getToDo(id)) setToDo(getToDo(id));
-  }, [toDos]);
 
   return (
     <header className={styles.header}>

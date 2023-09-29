@@ -1,16 +1,11 @@
-import { Dispatch, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ToDoContext } from '../../context';
 import { ToDoContextType } from '../../types';
-import styles from './ToDoForm.module.scss';
 import Button from '../Button/Button';
-
-// type ToDoFormProps = {
-//   name: string;
-//   setName: Dispatch<React.SetStateAction<string>>;
-// };
+import styles from './ToDoForm.module.scss';
 
 function ToDoForm() {
-  const { createToDo, setToDoModal } = useContext(
+  const { createToDo } = useContext(
     ToDoContext
   ) as ToDoContextType;
   const [name, setName] = useState<string>('');

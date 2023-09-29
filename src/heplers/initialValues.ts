@@ -31,17 +31,17 @@ export const initialTaskValue: TaskValue = {
   comments: [],
 };
 
-export const initialUpdateTask = (task:TaskValue)=> {
-  return  {
-      title: task.title,
-      desc: task.desc,
-      created: task.created,
-      devTime: task.devTime,
-      deadline: task.deadline,
-      prior: task.prior,
-      files: task.files,
-      status: task.status,
-      tasks: task.tasks,
-      comments: task.comments,
-    }
-}
+export const initialUpdateTask = (task: TaskValue) => {
+  return {
+    title: task.title,
+    desc: task.desc,
+    created: task.created,
+    devTime: task.devTime,
+    deadline: task.deadline,
+    prior: task.prior,
+    files: task.files,
+    status: task.status,
+    tasks: task.tasks,
+    comments: task.comments,
+  };
+};

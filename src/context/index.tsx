@@ -62,7 +62,7 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
       return updatedToDo;
     });
     setToDos(updatedToDos);
-    localStorage.setItem('toDos', JSON.stringify(toDos));
+    localStorage.setItem('toDos', JSON.stringify(updatedToDos));
     setTaskModal(false);
   };
 
@@ -84,8 +84,8 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
           }
         : activeToDo;
     });
-    setToDos([...updatedToDos]);
-    localStorage.setItem('toDos', JSON.stringify([...updatedToDos]));
+    setToDos(updatedToDos);
+    localStorage.setItem('toDos', JSON.stringify(updatedToDos));
   };
 
   const getToDo = (id: string) => {
@@ -106,11 +106,12 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
 
   const incrementDevTime = () => {
     const interval = setInterval(() => {
-      const undatedToDos = toDos.map((toDo) => {
+      toDos.map((toDo) => {
         toDo.boards[1].tasks = toDo.boards[1].tasks.map((task) => {
           task.devTime += 1;
           return task;
         });
+        return toDo;
       });
     }, 1000);
     return () => clearInterval(interval);
@@ -206,9 +207,6 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
     });
     setToDos(updatedToDos);
     localStorage.setItem('toDos', JSON.stringify(updatedToDos));
-    // setComments(commentParent(projectId, id, newComment));
-    // setCommentInput(false);
-    // setCommentValue("");
   };
 
   const getComments = (

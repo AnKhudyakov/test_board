@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
-import { Comment, TaskType, ToDoContextType } from '../../types';
-import styles from './TaskCard.module.scss';
-import Comments from '../Comments/Comments';
-import { Dispatch, useContext, useEffect, useState } from 'react';
-import { ToDoContext } from '../../context';
-import Button from '../Button/Button';
-import { ReactComponent as EditIcon } from '../../assets/icons/editIcon.svg';
-import TaskForm from '../TaskForm/TaskForm';
-import { initialUpdateTask } from '../../heplers/initialValues';
 import { useFormik } from 'formik';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ReactComponent as BackIcon } from '../../assets/icons/backIcon.svg';
+import { ReactComponent as EditIcon } from '../../assets/icons/editIcon.svg';
+import { ToDoContext } from '../../context';
+import { initialUpdateTask } from '../../heplers/initialValues';
+import { Comment, TaskType, ToDoContextType } from '../../types';
+import Button from '../Button/Button';
+import Comments from '../Comments/Comments';
+import TaskForm from '../TaskForm/TaskForm';
+import styles from './TaskCard.module.scss';
 
 type TaskCardProps = {
   task: TaskType;
@@ -26,12 +26,16 @@ function TaskCard({ task }: TaskCardProps) {
     status,
     tasks,
     comments,
+    devTime,
   } = task;
-  const { addComment, updateTask } = useContext(ToDoContext) as ToDoContextType;
+  const { addComment, updateTask, formik } = useContext(
+    ToDoContext
+  ) as ToDoContextType;
   const [comment, setComment] = useState<string>('');
   const [edit, setEdit] = useState<boolean>(false);
+  const [isNested, setIsNested] = useState<boolean>(false);
   const [activeComment, setActiveComment] = useState<Comment | null>(null);
-
+  const [timer, setTimer] = useState<number>(0);
   const handleComment = (e: any) => {
     e.preventDefault();
     addComment(task, comment, activeComment);
@@ -40,15 +44,19 @@ function TaskCard({ task }: TaskCardProps) {
 
   const handleFormSubmit = async () => {
     if (task) {
-      updateTask(formik.values, task);
+      updateTask(updatedFormik.values, task);
       setEdit(false);
     }
   };
 
-  const formik = useFormik({
+  const updatedFormik = useFormik({
     initialValues: initialUpdateTask(task),
     onSubmit: handleFormSubmit,
   });
+
+  useEffect(() => {
+    setTimer(devTime);
+  }, [devTime]);
 
   return (
     <div className={styles.container}>
@@ -61,9 +69,14 @@ function TaskCard({ task }: TaskCardProps) {
             <p className={styles.item}>{desc}</p>
             <p className={styles.item}>
               <strong>In Work:</strong>{' '}
-              {task.devTime
-                ? Math.floor(task.devTime / 60) + ':' + (task.devTime % 60)
-                : '00:00'}
+              {timer
+                ? Math.floor(timer / 3600) +
+                  'h:' +
+                  Math.floor((timer / 60) % 60) +
+                  'm:' +
+                  Math.floor(timer % 60) +
+                  's'
+                : '00:00:00'}
             </p>
             <p className={styles.item}>
               <strong>Deadline: </strong>
@@ -89,6 +102,15 @@ function TaskCard({ task }: TaskCardProps) {
                     </div>
                   ))
                 : ' No Tasks'}
+              <div className={styles.btn}>
+                <Button
+                  value="Add nested task"
+                  onClick={() => {
+                    setIsNested(true);
+                    setEdit(true);
+                  }}
+                ></Button>
+              </div>
             </ul>
             <ul>
               <strong> Files:</strong>
@@ -105,7 +127,6 @@ function TaskCard({ task }: TaskCardProps) {
                         {file.name}, size:{' '}
                         {`${(file.size / 1024).toFixed(2)} Кб`}
                       </Link>
-
                       <Link className={styles.download} to={file.url} download>
                         Download
                       </Link>
@@ -152,14 +173,20 @@ function TaskCard({ task }: TaskCardProps) {
         </div>
       ) : (
         <div>
-          <TaskForm updatedFormik={formik} currentFiles={task.files} />
+          <TaskForm
+            updatedFormik={isNested ? null : updatedFormik}
+            currentFiles={isNested ? [] : task.files}
+          />
           <div className={styles.edit}>
             <Button
               type="button"
               value=""
-               onClick={()=>setEdit(false)}
+              onClick={() => {
+                setEdit(false);
+                setIsNested(false);
+              }}
             >
-              <BackIcon/>
+              <BackIcon />
             </Button>
           </div>
         </div>

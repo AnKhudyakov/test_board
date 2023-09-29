@@ -1,11 +1,11 @@
-import { ReactComponent as FileIcon } from '../../assets/icons/fileIcon.svg';
-import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg';
-import { FileUploader } from 'react-drag-drop-files';
-import { File, ToDoContextType } from '../../types';
 import { Dispatch, useContext } from 'react';
+import { FileUploader } from 'react-drag-drop-files';
+import { ReactComponent as DeleteIcon } from '../../assets/icons/deleteIcon.svg';
+import { ReactComponent as FileIcon } from '../../assets/icons/fileIcon.svg';
+import { ToDoContext } from '../../context';
+import { File, ToDoContextType } from '../../types';
 import Button from '../Button/Button';
 import styles from './Uploader.module.scss';
-import { ToDoContext } from '../../context';
 
 type UploaderProps = {
   files: File[];

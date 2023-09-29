@@ -12,16 +12,17 @@
   font-size: 16px;
   line-height: 16px;
   margin-left: 8px;
-  &:hover{
+  &:hover {
     border-bottom: 2px solid $text-light;
-  color: $text-light;
+    color: $text-light;
   }
 }
 
 .header {
   height: 55px;
   padding: 0 20px;
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
   background: $bg-accent;
 
   .navigation {

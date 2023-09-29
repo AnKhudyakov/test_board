@@ -16,7 +16,7 @@ function Comments({
   return (
     <div className={styles.container} onClick={() => setActiveComment(null)}>
       {comments?.length
-        ? comments.map((comment, index) => (
+        ? comments.map((comment) => (
             <div
               key={comment.id}
               className={

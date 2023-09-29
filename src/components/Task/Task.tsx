@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
-import { IToDo, TaskType } from '../../types';
-import styles from './Task.module.scss';
+import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { TaskType } from '../../types';
 import Modal from '../Modal/Modal';
 import TaskCard from '../TaskCard/TaskCard';
-import { useState } from 'react';
+import styles from './Task.module.scss';
 
 type TaskProps = {
   task: TaskType;
@@ -29,9 +28,7 @@ function Task({ task, index }: TaskProps) {
                 <h2>Name:{task.title}</h2>
               </div>
               <div className={styles.content}>
-                {/* <p>{task.desc}</p> */}
                 <p>Created:{task.created.toString()}</p>
-                {/* <p>In Work: {task.devTime}</p> */}
                 <p>Deadline: {task.deadline}</p>
                 <p>Priority: {task.prior}</p>
               </div>

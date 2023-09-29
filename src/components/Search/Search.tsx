@@ -11,7 +11,6 @@ function Search() {
     setFilteredActiveTodo,
     search,
     setSearch,
-    filteredActiveTodo,
   } = useContext(ToDoContext) as ToDoContextType;
 
   useEffect(() => {

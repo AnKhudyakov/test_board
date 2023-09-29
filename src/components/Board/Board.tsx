@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
-import { BoardType, IToDo } from '../../types';
-import styles from './Board.module.scss';
-import Task from '../Task/Task';
 import { Droppable } from 'react-beautiful-dnd';
+import { BoardType } from '../../types';
+import Task from '../Task/Task';
+import styles from './Board.module.scss';
 
 type BoardProps = {
   board: BoardType;

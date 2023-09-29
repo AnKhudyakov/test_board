@@ -1,22 +1,21 @@
-import { Dispatch, useContext, useEffect, useState } from 'react';
+import { FormikValues } from 'formik';
+import { useContext, useState } from 'react';
 import { ToDoContext } from '../../context';
-import { File, IToDo, ToDoContextType } from '../../types';
-import styles from './TaskForm.module.scss';
+import { File, ToDoContextType } from '../../types';
 import Button from '../Button/Button';
 import Uploader from '../Uploader/Uploader';
-import { FormikValues } from 'formik';
+import styles from './TaskForm.module.scss';
 
 type TaskFormProps = {
-  updatedFormik?: FormikValues;
+  updatedFormik?: FormikValues | null;
   currentFiles?: File[];
 };
 
 function TaskForm({ updatedFormik, currentFiles }: TaskFormProps) {
   const { formik } = useContext(ToDoContext) as ToDoContextType;
-  const [error, setError] = useState<boolean>(false);
   const [files, setFiles] = useState<File[]>(currentFiles ? currentFiles : []);
-  const activeFormik = updatedFormik ? updatedFormik : formik;
 
+  const activeFormik = updatedFormik ? updatedFormik : formik;
   return (
     <>
       <form onSubmit={activeFormik.handleSubmit} className={styles.form}>
@@ -93,11 +92,6 @@ function TaskForm({ updatedFormik, currentFiles }: TaskFormProps) {
               onChange={activeFormik.handleChange}
             />
           </div>
-          {
-            <h5 className={error ? styles.error_active : styles.error}>
-              No name provided
-            </h5>
-          }
         </div>
         <Button
           type="submit"
