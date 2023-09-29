@@ -2,7 +2,7 @@ import { Dispatch } from 'react';
 import { IToDo } from './IToDo';
 import { FormikValues } from 'formik';
 import { DropResult } from 'react-beautiful-dnd';
-import { TaskType } from './Task';
+import { TaskType, TaskValue } from './Task';
 import { Comment } from './Comment';
 
 export type ToDoContextType = {
@@ -26,5 +26,14 @@ export type ToDoContextType = {
     content: string,
     activeComment: Comment | null
   ) => void;
-  getComments: (activeComment:Comment, newComment: Comment, comments:Comment[])=>Comment[]
+  getComments: (
+    activeComment: Comment,
+    newComment: Comment,
+    comments: Comment[]
+  ) => Comment[];
+  updateTask: (taskValue: TaskValue, oldTask: TaskType) => void;
+  filteredActiveTodo: IToDo | null;
+  setFilteredActiveTodo: Dispatch<React.SetStateAction<IToDo | null>>;
+  search: string;
+  setSearch: Dispatch<React.SetStateAction<string>>;
 };

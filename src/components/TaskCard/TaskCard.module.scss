@@ -1,21 +1,38 @@
 @import '../../styles/vars';
 
-.container {
-    display: flex;
+.container{
+  position: relative;
+  //padding-top: 50px;
+}
+
+.container_card{
+  position: relative;
+  display: flex;
     flex-direction: column;
     padding: 20px;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-      0 1px 10px 0 rgba(0, 0, 0, 0.12);
     border-radius: 5px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: $bg-light;
+}
+
+.edit {
+  position: fixed;
+  top: calc(10vh + 10px);
+  right: calc(5vw + 20px) ;
+  z-index: 999;
+  //background-color: $bg-light;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 0;
+  padding: 10px 0 0;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
 }
 
 .item {
@@ -55,10 +72,13 @@
 }
 
 .created {
+  padding-top: 10px;
   margin: 0;
   margin-top: 10px;
   font-size: 14px;
   text-align: right;
+  border-top: 1px solid $bg-accent;
+  opacity: 0.5;
 }
 
 .input {
@@ -77,6 +97,7 @@
 .comment {
   display: flex;
   gap: 20px;
+  width: 50%;
 }
 
 .comments{

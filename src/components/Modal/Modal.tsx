@@ -16,11 +16,11 @@ function Modal({ children, visible, setVisible, title }: ModalProps) {
 
   return (
     <div className={rootClasses.join(' ')} onClick={() => setVisible(false)}>
+      <div className={styles.modal_header}><p>{title}</p></div>
       <div
         className={styles.modal_content}
         onClick={(e) => e.stopPropagation()}
       >
-         <div className={styles.modal_header}><p>{title}</p></div>
         {children}
       </div>
     </div>

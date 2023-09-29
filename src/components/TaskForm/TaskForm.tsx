@@ -4,90 +4,106 @@ import { File, IToDo, ToDoContextType } from '../../types';
 import styles from './TaskForm.module.scss';
 import Button from '../Button/Button';
 import Uploader from '../Uploader/Uploader';
+import { FormikValues } from 'formik';
 
 type TaskFormProps = {
-  toDo: IToDo | null;
+  updatedFormik?: FormikValues;
+  currentFiles?: File[];
 };
 
-function TaskForm({ toDo }: TaskFormProps) {
-  const { createToDo, setToDoModal, toDos, formik } = useContext(
-    ToDoContext
-  ) as ToDoContextType;
+function TaskForm({ updatedFormik, currentFiles }: TaskFormProps) {
+  const { formik } = useContext(ToDoContext) as ToDoContextType;
   const [error, setError] = useState<boolean>(false);
-  const [files, setFiles] = useState<File[]>([]);
-  //console.log(formik.values);
+  const [files, setFiles] = useState<File[]>(currentFiles ? currentFiles : []);
+  const activeFormik = updatedFormik ? updatedFormik : formik;
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
+      <form onSubmit={activeFormik.handleSubmit} className={styles.form}>
         <div className={styles.input_container}>
-          <input
-            className={styles.input}
-            name="title"
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            type="text"
-            placeholder="Title"
-            autoFocus
-          />
-          <textarea
-            className={styles.textarea}
-            name="desc"
-            rows={3}
-            value={formik.values.desc}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="Description"
-          />
-          <Uploader files={files} setFiles={setFiles} />
-          <div className={styles.radio}>
-          <h4>Priority:</h4>
-          <label className={styles.label}>
-          <input
-              onChange={formik.handleChange}
-              type="radio"
-              name="prior"
-              value={'Low'}
-              checked={formik.values.prior === 'Low'}
-            />
-            Low
-          </label>
-          <label className={styles.label}>
+          <div>
+            <label className={styles.label}>Title:</label>
             <input
-              onChange={formik.handleChange}
-              type="radio"
-              name="prior"
-              value={'Medium'}
-              checked={formik.values.prior === 'Medium'}
+              className={styles.input}
+              name="title"
+              value={activeFormik.values.title}
+              onChange={activeFormik.handleChange}
+              onBlur={activeFormik.handleBlur}
+              type="text"
+              placeholder="Please enter task title here..."
+              autoFocus
             />
-             Medium
-          </label>
-          <label className={styles.label}>
-            <input
-              onChange={formik.handleChange}
-              type="radio"
-              name="prior"
-              value={'High'}
-              checked={formik.values.prior === 'High'}
-            />
-            High
-          </label>
           </div>
-          <input
-            className={styles.date}
-            type="date"
-            name="deadline"
-            value={formik.values.deadline}
-            onChange={formik.handleChange}
-          />
+          <div>
+            <label className={styles.label}>Description:</label>
+            <textarea
+              className={styles.textarea}
+              name="desc"
+              rows={3}
+              value={activeFormik.values.desc}
+              onChange={activeFormik.handleChange}
+              onBlur={activeFormik.handleBlur}
+              placeholder="Please enter task description here..."
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Files:</label>
+            <Uploader files={files} setFiles={setFiles} />
+          </div>
+          <div className={styles.radio}>
+            <label className={styles.label}>Priority:</label>
+            <label className={styles.label}>
+              <input
+                onChange={activeFormik.handleChange}
+                type="radio"
+                name="prior"
+                value={'Low'}
+                checked={activeFormik.values.prior === 'Low'}
+              />
+              Low
+            </label>
+            <label className={styles.label}>
+              <input
+                onChange={activeFormik.handleChange}
+                type="radio"
+                name="prior"
+                value={'Medium'}
+                checked={activeFormik.values.prior === 'Medium'}
+              />
+              Medium
+            </label>
+            <label className={styles.label}>
+              <input
+                onChange={activeFormik.handleChange}
+                type="radio"
+                name="prior"
+                value={'High'}
+                checked={activeFormik.values.prior === 'High'}
+              />
+              High
+            </label>
+          </div>
+          <div>
+            <label className={styles.label}>Deadline:</label>
+            <input
+              className={styles.date}
+              type="date"
+              name="deadline"
+              value={activeFormik.values.deadline}
+              onChange={activeFormik.handleChange}
+            />
+          </div>
           {
             <h5 className={error ? styles.error_active : styles.error}>
               No name provided
             </h5>
           }
         </div>
-        <Button type="submit" value="Add new"></Button>
+        <Button
+          type="submit"
+          value={updatedFormik ? 'Save' : 'Add new'}
+          disabled={!activeFormik.dirty}
+        ></Button>
       </form>
     </>
   );

@@ -10,24 +10,30 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 function BoardPage() {
   const { id } = useParams();
-  const { toDos, getToDo, setActiveToDo, activeToDo, dnd } = useContext(
-    ToDoContext
-  ) as ToDoContextType;
+  const {
+    toDos,
+    getToDo,
+    setActiveToDo,
+    filteredActiveTodo,
+    setFilteredActiveTodo,
+    dnd,
+  } = useContext(ToDoContext) as ToDoContextType;
 
   useEffect(() => {
     if (toDos && id && getToDo(id)) setActiveToDo(getToDo(id));
   }, [toDos]);
 
   const onDragEnd = (result: DropResult) => {
-    dnd(result)
-  }
+    dnd(result);
+  };
+//console.log(filteredActiveTodo);
 
   return (
     <Layout>
       <div className={styles.container}>
         <DragDropContext onDragEnd={onDragEnd}>
           <div className={styles.boards}>
-            {activeToDo?.boards.map((board) => (
+            {filteredActiveTodo?.boards.map((board) => (
               <Board board={board} key={board.id} />
             ))}
           </div>

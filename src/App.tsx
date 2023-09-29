@@ -8,13 +8,13 @@ import { ToDoContext } from './context';
 import { ToDoContextType } from './types';
 
 function App() {
-  const { toDos, setToDosFromLS, incrementDevTime } = useContext(
+  const { toDos, setToDosFromLS, incrementDevTime, search } = useContext(
     ToDoContext
   ) as ToDoContextType;
 
   useEffect(() => {
     setToDosFromLS();
-  }, []);
+  }, [search]);
 
   useEffect(() => {
     incrementDevTime();

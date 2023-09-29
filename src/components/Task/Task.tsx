@@ -39,7 +39,11 @@ function Task({ task, index }: TaskProps) {
           </div>
         )}
       </Draggable>
-      <Modal visible={visible} setVisible={setVisible} title={`#${task.number}`}>
+      <Modal
+        visible={visible}
+        setVisible={setVisible}
+        title={`#${task.number}`}
+      >
         <TaskCard task={task} />
       </Modal>
     </>

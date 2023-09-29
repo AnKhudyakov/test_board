@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker';
+import { useFormik } from 'formik';
 import React, { createContext, useState } from 'react';
+import { DropResult } from 'react-beautiful-dnd';
+import { initialBoard, initialTaskValue } from '../heplers/initialValues';
 import {
   BoardType,
   Comment,
@@ -8,10 +11,6 @@ import {
   TaskValue,
   ToDoContextType,
 } from '../types';
-import { initialBoard, initialTask } from '../heplers/initialValues';
-import { useFormik } from 'formik';
-import { DropResult } from 'react-beautiful-dnd';
-import { findRow } from '../heplers/comment';
 
 type ToDoProviderProps = {
   children: React.ReactNode;
@@ -25,16 +24,17 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
   const [toDoModal, setToDoModal] = useState<boolean>(false);
   const [taskModal, setTaskModal] = useState<boolean>(false);
   const [activeToDo, setActiveToDo] = useState<IToDo | null>(null);
+  const [search, setSearch] = useState<string>('');
+  const [filteredActiveTodo, setFilteredActiveTodo] = useState<IToDo | null>(
+    activeToDo
+  );
+
   const handleFormSubmit = async () => {
-    //const activeToDo = getActive();
-    if (activeToDo)
-      //  updateToDo({ ...formik.values, id: activeToDo.id });
-      // } else {
-      createTask(formik.values, activeToDo);
+    if (activeToDo) createTask(formik.values, activeToDo);
   };
 
   const formik = useFormik({
-    initialValues: initialTask,
+    initialValues: initialTaskValue,
     onSubmit: handleFormSubmit,
   });
 
@@ -45,7 +45,6 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
       boards: initialBoard,
     };
     setToDos([...toDos, newToDo]);
-    // setActiveToDoId(newToDo.id);
     localStorage.setItem('toDos', JSON.stringify([newToDo, ...toDos]));
     setToDoModal(false);
   };
@@ -66,37 +65,33 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
     localStorage.setItem('toDos', JSON.stringify(toDos));
     setTaskModal(false);
   };
-  // const updateToDo = (updatedToDo: IToDo) => {
-  //   const updatedToDos = toDos.map((toDo: IToDo) => {
-  //     if (toDo.id === updatedToDo.id) {
-  //       return updatedToDo;
-  //     }
-  //     return toDo;
-  //   });
-  //   setToDos([...updatedToDos]);
-  //   localStorage.setItem("toDos", JSON.stringify([...updatedToDos]));
-  // };
 
-  // const removeToDo = (id: string) => {
-  //   const newToDos = toDos.filter((toDo: IToDo) => {
-  //     if (toDo.id != id) return toDo;
-  //   });
-  //   setToDos([...newToDos]);
-  //   localStorage.setItem("toDos", JSON.stringify([...newToDos]));
-  // };
+  const updateTask = (taskValue: TaskValue, oldTask: TaskType) => {
+    if (!activeToDo) return;
+    const updatedTask: TaskType = { ...oldTask, ...taskValue };
+    const updatedToDos: IToDo[] = toDos.map((updatedToDo: IToDo) => {
+      return updatedToDo.id === activeToDo?.id
+        ? {
+            ...activeToDo,
+            boards: activeToDo.boards.map((board) => {
+              return {
+                ...board,
+                tasks: board.tasks.map((task: TaskType) => {
+                  return updatedTask.id === task.id ? { ...updatedTask } : task;
+                }),
+              };
+            }),
+          }
+        : activeToDo;
+    });
+    setToDos([...updatedToDos]);
+    localStorage.setItem('toDos', JSON.stringify([...updatedToDos]));
+  };
 
   const getToDo = (id: string) => {
     const toDo = toDos.find((toDo) => toDo.id === id);
     return toDo ? toDo : null;
   };
-
-  // const getActive = () => {
-  //   let anctiveToDo: IToDo | undefined;
-  //   if (activeToDoId) {
-  //     anctiveToDo = toDos.find((toDo: IToDo) => toDo.id === activeToDoId);
-  //   }
-  //   return anctiveToDo;
-  // };
 
   const setToDosFromLS = () => {
     if (localStorage.length) {
@@ -222,37 +217,19 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
     comments: Comment[]
   ) => {
     const parentId = activeComment.id;
-    let stack= [...comments];
+    let stack = [...comments];
 
-    while (stack.length > 0)
-    { 
-      let comment = stack.pop(); // Извлекаем комментарий из стека
+    while (stack.length > 0) {
+      let comment = stack.pop();
       if (comment?.id === parentId) {
-          // Найден активный комментарий, добавляем новый комментарий
-          comment?.comments.push(newComment);
-          return comments; // Выходим из цикла, так как задача выполнена
+        comment?.comments.push(newComment);
+        return comments;
       }
-
-      // Если у комментария есть вложенные комментарии, добавляем их в стек
       if (comment?.comments && comment.comments.length > 0) {
-          stack = stack.concat(comment.comments);
+        stack = stack.concat(comment.comments);
       }
-  }
-      // const row = findRow(comments, parentId);
-      // console.log("ROW",row);
-      
-      // if (!row) return [];
-      // parent = row.comments;
-      // console.log("Currentparent",parent);
+    }
 
-    //if (!parent) return [];
-    //parent.pop();
-    // parent.push({
-    //   ...newComment,
-    //   comments: [],
-    // });
-    // console.log(parent);
-    
     return stack;
   };
 
@@ -270,16 +247,17 @@ export const TodoProvider = ({ children }: ToDoProviderProps) => {
         getToDo,
         formik,
         dnd,
-        // updateToDo,
-        // removeToDo,
-        // setActive,
-        // getActive,
         setToDosFromLS,
         activeToDo,
         setActiveToDo,
         incrementDevTime,
         addComment,
         getComments,
+        updateTask,
+        filteredActiveTodo,
+        setFilteredActiveTodo,
+        search,
+        setSearch,
       }}
     >
       {children}

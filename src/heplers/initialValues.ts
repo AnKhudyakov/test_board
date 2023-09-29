@@ -18,7 +18,7 @@ export const initialBoard: BoardType[] = [
   },
 ];
 
-export const initialTask: TaskValue = {
+export const initialTaskValue: TaskValue = {
   title: '',
   desc: '',
   created: new Date().toDateString(),
@@ -30,3 +30,18 @@ export const initialTask: TaskValue = {
   tasks: [],
   comments: [],
 };
+
+export const initialUpdateTask = (task:TaskValue)=> {
+  return  {
+      title: task.title,
+      desc: task.desc,
+      created: task.created,
+      devTime: task.devTime,
+      deadline: task.deadline,
+      prior: task.prior,
+      files: task.files,
+      status: task.status,
+      tasks: task.tasks,
+      comments: task.comments,
+    }
+}
